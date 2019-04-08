@@ -1,6 +1,3 @@
-
-Назад (accesskey b)    Зберегти (accesskey s)    	Файл: /js/caculator.js
-Кодування символів:    	Стан: файл не збережений
 window.onload = function(){
 	const btn = document.getElementById('btn')
 	
@@ -99,7 +96,6 @@ function printTable(matrix){
 	const body = document.getElementsByTagName("body")[0];
 	body.appendChild(table);
 }
-
 
 
 
