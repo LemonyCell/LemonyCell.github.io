@@ -1,4 +1,17 @@
 window.onload = function(){
+	
+	const res = fetch("https://api12342354.restlet.net/v1/bookmarks/")
+    .then(response => response.json())
+	.then(createList)
+    .catch(function(ex) {
+    console.log('parsing failed: ', ex)
+  })
+  
+  
+	
+	
+	
+	/*
 	const btn = document.getElementById('btn')
 	
 	console.log(btn);
@@ -7,31 +20,49 @@ window.onload = function(){
 	btn.addEventListener( "click" , function() {
 		const table = fun();
 	});
-	
-	
+	*/
 }
 
-function Iqals() {
-    var num1,num2,num3,num4,result;
-   num1 = document.getElementById("money").value;
-   num1 =parseInt(num1);
-   num2 = document.getElementById("volume").value;
-   num2 =parseInt(num2);
-   num3 = document.getElementById("age").value;
-   num3 =parseInt(num3);
-   var select = document.getElementById("type");
-    var value = select.value;
+function getLi(url, comment){
+	const div = document.createElement("div");
+	div.classList.add("bookmark");
+	
+	const urlText = document.createTextNode("Url: ");
+	const commentText = document.createTextNode("Comment: " + comment);
+	
+	let p = document.createElement("p");
+	
+	const a = document.createElement("a");
+	//a.appendChild(document.createTextNode(url));
+	a.innerText = url;
+	a.href = url;
+	
+	p.appendChild(urlText);
+	p.appendChild(a);
+	div.appendChild(p);
+	
+	p = document.createElement("p");
+	p.appendChild(commentText);
+	div.appendChild(p);
+	
+	
+	const li = document.createElement("li");
+	li.appendChild(div);
+	return li;
+}
 
-   
-   if(value == "Дизель") {num4=75}
-   else {
-    num4=50
-   }
-
-   if(num3>15) {num3=15}
-result = num1*0.1 + num1*0.2 + num2*num3*num4; 
-document.getElementById("out").innerHTML=result;
-} 
+function createList(json){
+	const ul = document.getElementsByTagName("ul")[0];
+	
+	console.log('parsed json', json)
+	for(let elem in json){
+		console.log('elem: ', json[elem]);
+		console.log('id: ', json[elem].id);
+		console.log('url: ', json[elem].url);
+		console.log('comment: ', json[elem].comment)
+		ul.appendChild(getLi(json[elem].url, json[elem].comment));
+	}
+}
 
 function fun(){
 	const request = fetch("https://wrapapi.com/use/Vitya80100/tntu/kyrs/latest?wrapAPIKey=83wS8aKHmtyblx1ubmYunc1EHd7vpk5o")
