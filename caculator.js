@@ -7,7 +7,9 @@ window.onload = function(){
     console.log('parsing failed: ', ex)
   })
   
-  
+  const footer = document.getElementById("footer");
+  const addBtn = createAddBtn();
+  footer.appendChild(addBtn);
 	
 	
 	
@@ -23,7 +25,7 @@ window.onload = function(){
 	*/
 }
 
-function getLi(url, comment){
+function createLi(url, comment){
 	const div = document.createElement("div");
 	div.classList.add("bookmark");
 	
@@ -60,8 +62,46 @@ function createList(json){
 		console.log('id: ', json[elem].id);
 		console.log('url: ', json[elem].url);
 		console.log('comment: ', json[elem].comment)
-		ul.appendChild(getLi(json[elem].url, json[elem].comment));
+		ul.appendChild(createLi(json[elem].url, json[elem].comment));
 	}
+}
+
+function createAddBtn(){
+	const button = document.createElement("button");
+	const node = document.createTextNode("Add");
+	button.appendChild(node);
+	
+	button.addEventListener("click", function(){
+		const form = document.getElementById("addBookmarkForm");
+		
+		if(form.className == "hide"){
+			form.classList.remove("hide");
+		} else {
+			addBookmark(); // send new bookmark to db and attach to page
+			form.classList.add("hide");
+		}
+		
+	});
+	
+	return button;
+}
+
+function addBookmark(){
+	const form = document.getElementById("addBookmarkForm");
+	const url = form.querySelector('[name="url"]');
+	
+	if (url.value == ""){
+		alert("Url is empty");
+		return;
+	}
+	
+	const comment = form.querySelector('[name="comment"]');
+	
+	const ul = document.getElementsByTagName("ul")[0];
+	ul.appendChild(createLi(url.value, comment.value));
+	
+	url.value = "";
+	comment.value = "";
 }
 
 function fun(){

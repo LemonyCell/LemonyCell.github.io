@@ -19,11 +19,19 @@ text-align: left;
 #footer {
     position: fixed; /* Фиксированное положение */
     left: 0; bottom: 0; /* Левый нижний угол */
-    padding: 10px; /* Поля вокруг текста */
-    background: #39b54a; /* Цвет фона */
-    color: #fff; /* Цвет текста */
+	color: #fff; /* Цвет текста */
+	background-color: #39b54a;
+	
     width: 100%; /* Ширина слоя */
-   }
+}
+
+.hide {
+	display: none;
+}
+
+button {
+	width: 100%
+}
 
 .bookmark {
 	 float: button; 
