@@ -38,6 +38,7 @@ function createLi(url, comment){
 	//a.appendChild(document.createTextNode(url));
 	a.innerText = url;
 	a.href = url;
+	a.setAttribute("target", "_blank"); // to open link in new page
 	
 	p.appendChild(urlText);
 	p.appendChild(a);
