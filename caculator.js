@@ -32,7 +32,7 @@ function getBookmarks(){
 async function getBookmarksAwait() {
   let responseBookmarks = await fetch("https://api12342354.restlet.net/v1/bookmarks/");
   let bookmarks = await responseBookmarks.json();
-  console.log("parsed json");
+  console.log("parsed json : ");
   console.log(JSON.stringify(bookmarks, '', ' '));
   return bookmarks;
 }
@@ -113,8 +113,49 @@ function addBookmark(){
 	const ul = document.getElementsByTagName("ul")[0];
 	ul.appendChild(createLi(url.value, comment.value));
 	
+	postBookmarkFetch(url.value, comment.value);
+	
 	url.value = "";
 	comment.value = "";
+}
+
+function postBookmark(url, comment){
+	var data = JSON.stringify({
+	"url": url,
+	"comment": comment
+	});
+
+	var xhr = new XMLHttpRequest();
+	xhr.withCredentials = true;
+
+	xhr.addEventListener("readystatechange", function () {
+	  if (this.readyState === 4) {
+		console.log(this.responseText);
+	  }
+	});
+
+	xhr.open("POST", "https://api12342354.restlet.net/v1/bookmarks/");
+	xhr.setRequestHeader("Content-Type", "application/json");
+
+	xhr.send(data);
+}
+
+function postBookmarkFetch(url, comment){
+	var data = JSON.stringify({
+	"url": url,
+	"comment": comment
+	});
+	
+	fetch("https://api12342354.restlet.net/v1/bookmarks/", {  
+    method: 'post',  
+    headers: {  
+      "Content-type": "application/json"  
+    },  
+    body: data
+  })
+  .catch(function (error) {  
+    console.log('Request failed', error);  
+  });
 }
 
 function fun(){
