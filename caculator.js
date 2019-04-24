@@ -1,15 +1,10 @@
-window.onload = function(){
+window.onload = async function(){
 	
-	const res = fetch("https://api12342354.restlet.net/v1/bookmarks/")
-    .then(response => response.json())
-	.then(createList)
-    .catch(function(ex) {
-    console.log('parsing failed: ', ex)
-  })
-  
-  const footer = document.getElementById("footer");
-  const addBtn = createAddBtn();
-  footer.appendChild(addBtn);
+	createList(await getBookmarksAwait());
+	
+    const footer = document.getElementById("footer");
+    const addBtn = createAddBtn();
+    footer.appendChild(addBtn);
 	
 	
 	
@@ -24,6 +19,24 @@ window.onload = function(){
 	});
 	*/
 }
+
+function getBookmarks(){
+	const res = fetch("https://api12342354.restlet.net/v1/bookmarks/")
+    .then(response => response.json())
+	.then(createList)
+    .catch(function(ex) {
+    console.log('parsing failed: ', ex)
+  });
+}
+
+async function getBookmarksAwait() {
+  let responseBookmarks = await fetch("https://api12342354.restlet.net/v1/bookmarks/");
+  let bookmarks = await responseBookmarks.json();
+  console.log("parsed json");
+  console.log(JSON.stringify(bookmarks, '', ' '));
+  return bookmarks;
+}
+
 
 function createLi(url, comment){
 	const div = document.createElement("div");
