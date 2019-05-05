@@ -7,18 +7,26 @@ window.onload = function(){
 
  function startRead() {
     // obtain input element through DOM
-  
     var file = document.querySelector("[aria-describedby='inputGroupFileAddon01']").files[0];
     if(file){
+      const name = file.name;
+      document.querySelector("[for='inputGroupFile01']").innerHTML = name;
+      
+      console.log("filename : ", name);
+      const isTxt = name.match("^.+\.txt$");
+      if(isTxt == null){
+        showFileError("Error! Unsupported format. Only .txt support");
+        return; // file has unsupported format
+      }
       const text = getAsText(file);
-      document.querySelector("[for='inputGroupFile01']").innerHTML = file.name;
       console.log(text);
       //return text;
     }
   }
   
   function getAsText(readFile) {
-  
+    console.log("readFile : ", readFile);
+
     var reader = new FileReader();
   
     // Read file into memory as UTF-8
@@ -33,11 +41,10 @@ window.onload = function(){
   function updateProgress(evt) {
     if (evt.lengthComputable) {
       // evt.loaded and evt.total are ProgressEvent properties
-      var loaded = (evt.loaded / evt.total);
-      if (loaded < 1) {
+      //if (isTxt == null) {
         // Increase the prog bar length
         // style.width = (loaded * 200) + "px";
-      }
+      //}
     }
   }
   
@@ -46,9 +53,11 @@ window.onload = function(){
     const fileString = evt.target.result;
     console.log("fileString : ", fileString);
 
-    const isValid = fileString.match( "[^ 0-9 || ' ' || '\n' ]" );
+    let isValid = fileString.match( "[^ 0-9 || ' ' || '\n' ]" );
     console.log("isValid : ", isValid);
     if(isValid != null) {
+      showFileError("Error! The file must contain only numbers and spaces.");
+      //throw "Not supportes format.";
       return; // there are not numbers or spaces
     }
     const arr = fileString.split('\n');
@@ -61,14 +70,14 @@ window.onload = function(){
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
+  function showFileError(message){
+    const groupFile = document.querySelector(".input-group");
+    const errorDiv = document.createElement("div");
+    const node = document.createTextNode(message);
+    errorDiv.appendChild(node);
+    //errorDiv.innerHTML = message;
+    errorDiv.classList.add("alert");
+    errorDiv.classList.add("alert-danger");
+    //errorDiv.after(groupFile);
+    groupFile.parentNode.insertBefore(errorDiv, groupFile.nextSibling);
+  }
