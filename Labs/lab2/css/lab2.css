@@ -56,3 +56,16 @@ body {
         opacity: 0.65;
     }
   }
+
+  .alert-danger{
+    animation: alert_hide 2s;
+    animation-delay: 3s;
+  }
+
+  @keyframes alert_hide{
+    0%  {opacity: 1;}
+    25% {opacity: 0.75;}
+    50% {opacity: 0.5;}
+    75% {opacity: 0.25;}
+    100%{opacity: 0;}
+  }

@@ -78,6 +78,10 @@ window.onload = function(){
     //errorDiv.innerHTML = message;
     errorDiv.classList.add("alert");
     errorDiv.classList.add("alert-danger");
+    errorDiv.addEventListener('animationend', function(e) { 
+      //alert('Animation ' + e.animationName + ' has ended');
+      this.remove();
+    });
     //errorDiv.after(groupFile);
     groupFile.parentNode.insertBefore(errorDiv, groupFile.nextSibling);
   }
