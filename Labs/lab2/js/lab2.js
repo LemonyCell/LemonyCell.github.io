@@ -5,6 +5,10 @@ window.onload = function(){
     });
 }
 
+
+
+
+//#region File reading
  function startRead() {
     // obtain input element through DOM
     var file = document.querySelector("[aria-describedby='inputGroupFileAddon01']").files[0];
@@ -85,3 +89,4 @@ window.onload = function(){
     //errorDiv.after(groupFile);
     groupFile.parentNode.insertBefore(errorDiv, groupFile.nextSibling);
   }
+  //#endregion
