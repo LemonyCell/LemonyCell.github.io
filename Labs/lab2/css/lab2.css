@@ -51,7 +51,7 @@ body {
   }
 
   .alert-danger{
-    animation: alert_hide 1.5s;
+    animation: alert_hide 3s;
     animation-delay: 3s;
   }
 

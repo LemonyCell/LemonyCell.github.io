@@ -16,6 +16,7 @@
     https://mdbootstrap.com/img/Photos/Horizontal/Nature/full%20page/img(11).jpg
     " 
     class="background" alt="">
+    <div class="container">
     <div class="input-group">
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -26,15 +27,16 @@
           <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
         </div>
       </div>
-      
-      <div class="container">
-        <p>Inversion</p>
-        <p>User 1 : <input type="text"></p>
-        <p>User 2 : <input type="text"></p>
-        <button>caculate</button>
-        <p>Result = <b>result</b></p>
+      <div class="table"></div>
+      <div class="errors"></div>
+      <div>
+          <p>Inversion</p>
+          <p>User 1 : <input type="text" id="input_1"></p>
+          <p>User 2 : <input type="text" id="input_2"></p>
+          <button id="inversion">Caculate</button>
+          <p>Result = <b id="result">result</b></p>
       </div>
-    
+    </div>  
   <script src="js/lab2.js"></script>
  </body>
 </html>
