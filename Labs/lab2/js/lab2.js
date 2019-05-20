@@ -49,7 +49,7 @@ var Matrix = new Array();
     const fileString = evt.target.result;
     console.log("fileString : \n", fileString);
 
-    let isValid = fileString.match( "[^ 0-9 || ' ' || '\n' ]" );
+    let isValid = fileString.match( "[0-9 \n]" );
     console.log("isValid : ", isValid);
     if(isValid != null) {
       showFileError("Error! The file must contain only numbers and spaces.");
