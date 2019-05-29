@@ -40,16 +40,17 @@ var Matrix = new Array();
     reader.readAsText(readFile, "UTF-8");
   
     // Handle progress, success, and errors
-    reader.onload = loaded;
+    reader.onload = obj.loaded.bind(obj);
     reader.onerror = errorHandler;
   }
 
-  function loaded(evt) {
+  const obj = {loaded: function loaded(evt) {
+    this.x = 10;
     // Obtain the read file data
     const fileString = evt.target.result;
     console.log("fileString : \n", fileString);
 
-    let isValid = fileString.match( "[0-9 \n]" );
+    let isValid = fileString.match( "[^0-9 \n]" );
     console.log("isValid : ", isValid);
     if(isValid != null) {
       showFileError("Error! The file must contain only numbers and spaces.");
@@ -62,7 +63,7 @@ var Matrix = new Array();
 
     createMatrix(arr);
     showTable();
-  }
+  }};
   
   function errorHandler(evt) {
     if(evt.target.error.name == "NotReadableError") {

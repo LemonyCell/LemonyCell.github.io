@@ -4,58 +4,39 @@ body {
     
 }
 
-.background {
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    opacity: 0.60;
-    /* Preserve aspet ratio */
-    min-width: 100%;
-    min-height: 100%;
+.itemContainer {
+  display: inline-block;
 
-    z-index: -1;
+  overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
 
-    animation-name: bg_animation;
-    animation-duration: 25s;
-    animation-delay: 3s;
-    animation-iteration-count: infinite;
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+.itemContainer button{
+  margin-left: 0.5%;
+}
+
+.swapUp{
+  animation-name: up;
+  animation-duration: 3s;
+  animation-delay: 0.5s;
+  animation-iteration-count: 1;
+}
+
+@keyframes up{
+  0% {
+    transform: translate(0 px, 0 px);
   }
-
-  @keyframes bg_animation {
-    0%   {
-        transform: translateY(0%);
-        opacity: 0.55;
-    }
-  30%  {
-        transform: translateY(-40%);
-        opacity: 0.75;
-    }
-  35% {
-      transform: translateY(-40%);
-      opacity: 0.9;
+  25% {
+    transform: translate(0 px, var('--heigth'));
   }
-  50% {
-        transform: translateY(-34.5%);
-      }
-  70% {
-    transform: translateY(-40%);
-    }
   75% {
-    transform: translateY(-40%);
-        opacity: 0.7;
-    }
+    transform: translate(var('--endX'), var('--heigth'));
+  }
   100% {
-    transform: translateY(0%);
-        opacity: 0.60;
-    }
+    transform: translate(var('--endX'), 0 px);
   }
-
-  .alert-danger{
-    animation: alert_hide 3s;
-    animation-delay: 3s;
-  }
-
-  @keyframes alert_hide{
-    0%  {opacity: 1;}
-    100%{opacity: 0;}
-  }
+}
