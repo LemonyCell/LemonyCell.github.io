@@ -1,23 +1,20 @@
 window.addEventListener('load', function(){
+  const min = 0;
+  const max = 20;
+
   const arr = [];
   const size = 21;
   for(let i=0; i<size; i++){
-    arr.push(i);
+    let rand = min - 0.5 + Math.random() * (max - min + 1)
+    rand = Math.round(rand);
+    arr.push(rand);
   }
 
   const container = new Container();
   container.createItems(arr);
   container.html(document.body);
 
-  container.do();
-/*
-  const button = document.querySelector('button');
-    button.addEventListener("click", function(){
-      const container = document.createElement('div');
-      document.body.appendChild(container);
-      for(let i=0; i<size; i++){
-        arr[i].html(container);
-      }
-    });
-    */
+  const sort = new ItemSort(container);
+  sort.quickSort(0, arr.length - 1, sort.partitionLast);
+  container.doSwapOrder();
 });
