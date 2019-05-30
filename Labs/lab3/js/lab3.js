@@ -1,4 +1,11 @@
 window.addEventListener('load', function(){
+  const divReadFile = document.createElement('div');
+  divReadFile.classList.add('readFileContainer');
+  document.body.appendChild(divReadFile);
+  const input = new Input();
+  input.html(divReadFile);
+
+
   const min = 0;
   const max = 20;
 
