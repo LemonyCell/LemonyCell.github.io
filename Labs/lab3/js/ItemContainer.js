@@ -23,20 +23,20 @@ function Container(){
         this.itemsValues[index2] = tempValue;
 
         // add animation to order
-        const elem1 = items[index1];
-        const elem2 = items[index2];
+        const elem1 = this.items[index1];
+        const elem2 = this.items[index2];
         swapOrder.push(
             async function(){
                 elem1.toggleSwaped();
 
                 elem2.toggleSwaped();
 
-                await timeout(1000);
+                await timeout(700);
                 const temp = elem1.getValue();
                 elem1.setValue(elem2.getValue());
                 elem2.setValue(temp);
 
-                await timeout(1000);
+                await timeout(700);
                 elem1.toggleSwaped();
                 elem2.toggleSwaped();
             }
