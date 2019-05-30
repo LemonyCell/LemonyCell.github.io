@@ -24,18 +24,51 @@ function Container(){
         );
     }
 
-    this.blinkRange = function(index1, index2){
+    this.showRange = function(index1, index2){
         const elem1 = this.items[index1];
         const elem2 = this.items[index2];
         swapOrder.push(
             async function(){
-                elem1.toggleRange();
-                elem2.toggleRange();
-                await timeout(400);
-                elem1.toggleRange();
-                elem2.toggleRange();
+                startRangeBtn = createRange(elem1.getHtml());
+                endRangeBtn = createRange(elem2.getHtml(), false);
             }
         );
+    }
+
+    function createRange(elem, before = true){
+        const button = document.createElement('button');
+        button.classList.add('btn');
+        button.classList.add('btn-warning');
+        button.classList.add('btn-range');
+
+        var parent = elem.parentNode;
+        if(before){
+            parent.insertBefore(button, elem);
+        } else {
+            const next = elem.nextSibling;
+            if (next) {
+                parent.insertBefore(button, next);
+            } else {
+                parent.appendChild(button);
+            }
+        }
+
+        return button;
+    }
+
+    this.hideRange = function(){
+        swapOrder.push(
+            async function(){
+                deleteRange();
+            }
+        );
+    }
+
+    function deleteRange(){
+        const range = document.querySelectorAll('.itemContainer > .btn-range');
+        for(let i=0; i<range.length; i++){
+            range[i].parentNode.removeChild(range[i]);
+        }
     }
 
     this.swap = function(index1, index2){
@@ -109,11 +142,6 @@ function Item(item){
         button.classList.toggle('btn-danger');
     }
 
-    this.toggleRange = function(){
-        button.classList.toggle('btn-outline-secondary');
-        button.classList.toggle('btn-warning');
-    }
-
     this.getValue = function(){
         return item;
     }
@@ -126,6 +154,10 @@ function Item(item){
     }
 
     const button = document.createElement('button');
+
+    this.getHtml = function(){
+        return button;
+    }
 
     this.html = function(container) {
         button.classList.add('btn');
@@ -163,7 +195,7 @@ function ItemSort(container){
             }
 
             const x = container.itemsValues[right];
-            container.blinkRange(left, right);
+            container.showRange(left, right);
             container.blinkPartition(right);
             
             let i = left - 1;
@@ -175,6 +207,9 @@ function ItemSort(container){
                 }
             }
             container.swap(right, i+1);
+
+            container.hideRange();
+
             return i + 1;
     }
 }
