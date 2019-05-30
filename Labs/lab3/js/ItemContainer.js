@@ -13,6 +13,30 @@ function Container(){
         }
     }
 
+    this.blinkPartition = function(index){
+        const elem = this.items[index];
+        swapOrder.push(
+            async function(){
+                elem.toggleBlink();
+                await timeout(600);
+                elem.toggleBlink();
+            }
+        );
+    }
+
+    this.blinkRange = function(index1, index2){
+        const elem1 = this.items[index1];
+        const elem2 = this.items[index2];
+        swapOrder.push(
+            async function(){
+                elem1.toggleRange();
+                elem2.toggleRange();
+                await timeout(400);
+                elem1.toggleRange();
+                elem2.toggleRange();
+            }
+        );
+    }
 
     this.swap = function(index1, index2){
         if(index1 == index2){
@@ -80,6 +104,16 @@ function Item(item){
         button.classList.toggle('btn-secondary');
     }
 
+    this.toggleBlink = function(){
+        button.classList.toggle('btn-outline-secondary');
+        button.classList.toggle('btn-danger');
+    }
+
+    this.toggleRange = function(){
+        button.classList.toggle('btn-outline-secondary');
+        button.classList.toggle('btn-warning');
+    }
+
     this.getValue = function(){
         return item;
     }
@@ -118,7 +152,19 @@ function ItemSort(container){
     }
 
     this.partitionLast = function(left, right){
+            if(left == right){
+                return right;
+            }
+            if(right - left == 1){
+                if(container.itemsValues[right] < container.itemsValues[left]){
+                    container.swap(right, left);
+                }
+                return right;
+            }
+
             const x = container.itemsValues[right];
+            container.blinkRange(left, right);
+            container.blinkPartition(right);
             
             let i = left - 1;
             for (let j = left; j < right; j++){
