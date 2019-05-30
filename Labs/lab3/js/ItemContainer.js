@@ -189,7 +189,9 @@ function ItemSort(container){
             }
             if(right - left == 1){
                 if(container.itemsValues[right] < container.itemsValues[left]){
+                    container.showRange(left, right);
                     container.swap(right, left);
+                    container.hideRange();
                 }
                 return right;
             }
