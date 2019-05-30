@@ -5,38 +5,10 @@ body {
 }
 
 .itemContainer {
-  display: inline-block;
-
-  overflow-y: hidden;
   overflow-x: auto;
   white-space: nowrap;
-
-  padding-top: 5%;
-  padding-bottom: 5%;
 }
 
 .itemContainer button{
   margin-left: 0.5%;
-}
-
-.swapUp{
-  animation-name: up;
-  animation-duration: 3s;
-  animation-delay: 0.5s;
-  animation-iteration-count: 1;
-}
-
-@keyframes up{
-  0% {
-    transform: translate(0 px, 0 px);
-  }
-  25% {
-    transform: translate(0 px, var('--heigth'));
-  }
-  75% {
-    transform: translate(var('--endX'), var('--heigth'));
-  }
-  100% {
-    transform: translate(var('--endX'), 0 px);
-  }
 }
