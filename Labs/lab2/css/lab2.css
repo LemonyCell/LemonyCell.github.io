@@ -59,3 +59,12 @@ body {
     0%  {opacity: 1;}
     100%{opacity: 0;}
   }
+
+  .table {
+    overflow-x : auto;
+    overflow-y : auto;
+  }
+
+  .table-visible{
+    height: 300px;
+  }

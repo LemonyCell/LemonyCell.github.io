@@ -50,7 +50,7 @@ var Matrix = new Array();
     const fileString = evt.target.result;
     console.log("fileString : \n", fileString);
 
-    let isValid = fileString.match( "[^0-9 \n]" );
+    let isValid = fileString.match( "[^0-9 \n\r]" );
     console.log("isValid : ", isValid);
     if(isValid != null) {
       showFileError("Error! The file must contain only numbers and spaces.");
@@ -89,6 +89,8 @@ var Matrix = new Array();
   //#endregion
 
   function createMatrix(matrix){
+    Matrix = [];
+
     const rows = + matrix[0].split(' ')[0];
     const columns = + matrix[0].split(' ')[1];
     matrix.shift(); // delete text[0]
@@ -107,20 +109,52 @@ var Matrix = new Array();
   }
 
   function showTable(){
+    const divTables = document.querySelector('.table');
+
+    if(!divTables.classList.contains('table-visible')){
+      divTables.classList.add('table-visible');
+    }
+
+    const oldTables = document.querySelectorAll('.table table');
+    for(let i=0; i< oldTables.length; i++){
+      oldTables[i].parentNode.removeChild(oldTables[i]);
+    }
+
     const table = document.createElement("table");
+    table.classList.add('table');
+    table.classList.add('table-hover');
+
+    const thead = document.createElement('thead');
+    const trHead = document.createElement("tr");
+    const thHead = document.createElement("th");
+    thHead.setAttribute('scope', 'col');
+    thHead.textContent = "User id";
+
+    thead.appendChild(trHead);
+    trHead.appendChild(thHead);
+    table.appendChild(thead);
+
+    const tbody = document.createElement("tbody");
+
     for(let i = 0; i<Matrix.length; i++){
+      // row
       const tr = document.createElement("tr");
-      
+      const th = document.createElement("th");
+      th.setAttribute('scope', 'row');
+      th.textContent = i + 1;
+      tr.appendChild(th);
+
       let columns = Matrix[i].length;
       for(let j = 0; j< columns; j++){
+        // column
         const td = document.createElement("td"); 
         const node = document.createTextNode(Matrix[i][j]);
         td.appendChild(node);
         tr.appendChild(td);
       }
-
-      table.appendChild(tr);
+      tbody.appendChild(tr);
     }
+    table.appendChild(tbody);
     //console.log("table : \n", table);
 
     const div = document.querySelector(".table");
@@ -129,10 +163,22 @@ var Matrix = new Array();
   }
 
 function caculateInversion(){
-  const user1 = + document.querySelector("#input_1").value;
-  const user2 = + document.querySelector("#input_2").value;
+  const user1 =  document.querySelector("#input_1").value;
+  const user2 =  document.querySelector("#input_2").value;
+  if(user1 == undefined || user2 == undefined){
+    showFileError("Empty input");
+    return;
+  }    
+
+  const indexes = Matrix[user1-1];
+  const values = Matrix[user2-1];
+
+  if(indexes == undefined || values == undefined){
+    showFileError("Out of range");
+    return;
+  }  
   
-  const inversions = getInversions(merge(Matrix[user1-1], Matrix[user2-1]));
+  const inversions = getInversions(merge(indexes, values));
 
   const result = document.querySelector("#result");
   result.innerHTML = inversions;

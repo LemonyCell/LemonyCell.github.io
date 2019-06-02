@@ -5,7 +5,6 @@ window.addEventListener('load', function(){
   const input = new Input();
   input.html(divReadFile);
 
-
   const min = 0;
   const max = 20;
 
