@@ -89,7 +89,9 @@ var Matrix = new Array();
   //#endregion
 
   function createMatrix(matrix){
-    Matrix = [];
+    if(Matrix != undefined){
+      Matrix.length = 0;
+    }
 
     const rows = + matrix[0].split(' ')[0];
     const columns = + matrix[0].split(' ')[1];
@@ -162,6 +164,8 @@ var Matrix = new Array();
     div.appendChild(table);
   }
 
+// #region Inversion
+
 function caculateInversion(){
   const user1 =  document.querySelector("#input_1").value;
   const user2 =  document.querySelector("#input_2").value;
@@ -183,8 +187,6 @@ function caculateInversion(){
   const result = document.querySelector("#result");
   result.innerHTML = inversions;
 }
-
-// #region Inversion
 
 function merge(indexes, values){
   if (indexes.length != values.length) return null;

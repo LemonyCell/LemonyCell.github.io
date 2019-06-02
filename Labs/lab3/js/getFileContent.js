@@ -1,5 +1,7 @@
 class Input {
-    constructor(){
+    constructor(eventName, eventElement){
+      this._eventName = eventName;
+      this._eventElement = eventElement;
     }
 
     html(container) {
@@ -101,7 +103,7 @@ class Input {
         const fileString = evt.target.result;
         console.log("fileString : \n", fileString);
 
-        let isValid = fileString.match( "[^0-9 \n]" );
+        let isValid = fileString.match( "[^0-9 \n\r]" );
         console.log("isValid : ", isValid);
         if(isValid != null) {
           this.showFileError("Error! The file must contain only numbers and spaces.");
@@ -139,5 +141,8 @@ class Input {
           arr.push( +content[i] );
         }
         this.arr = arr;
+
+        const event = new CustomEvent(this._eventName, { 'detail': arr });
+        const res = this._eventElement.dispatchEvent(event);
     }
 }

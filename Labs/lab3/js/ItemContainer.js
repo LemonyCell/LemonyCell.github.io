@@ -4,13 +4,22 @@ function Container(){
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    this.clearSwapOrder = function(){
+        if(swapOrder != undefined){
+            swapOrder.length = 0;
+        }
+    }
+
     let swapOrder = [];
 
     this.doSwapOrder = async function(){
+        
         for(let i=0; i< swapOrder.length; i++){
             await swapOrder[i]();
             await timeout(300);
         }
+
+        swapOrder.length = 0;
     }
 
     this.blinkPartition = function(index){
@@ -105,6 +114,10 @@ function Container(){
     this.itemsValues = [];
 
     this.createItems = function(arr){
+        if(this.items != undefined){
+            this.items.length = 0;
+        }
+
         for(let i=0; i< arr.length; i++)
         {
             this.items.push(new Item(arr[i]));
