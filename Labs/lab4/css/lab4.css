@@ -1,0 +1,28 @@
+body {
+    background: ghostwhite;
+    padding: 2.5%;
+    
+}
+
+.itemContainer {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.itemContainer button{
+  margin-left: 0.5%;
+}
+
+/* 
+  class Input
+  for error div
+*/
+.alert-danger{
+  animation: alert_hide 3s;
+  animation-delay: 3s;
+}
+
+@keyframes alert_hide{
+  0%  {opacity: 1;}
+  100%{opacity: 0;}
+}

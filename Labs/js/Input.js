@@ -55,23 +55,6 @@ class Input {
       divCustomFile.appendChild(label);
 
       container.appendChild(divFileInput);
-      
-      const innerHTML = `
-      <div class="file-input">
-              <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroupFileAddon01">Upload</span>
-                  </div>
-                  <div class="custom-file">
-                      <input type="file" class="custom-file-input" id="inputGroupFile01"
-                      aria-describedby="inputGroupFileAddon01">
-                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                  </div>
-              </div>
-              <div class="errors">
-              </div>
-      </div>
-      `;
     }
     
     startRead(){
@@ -80,7 +63,7 @@ class Input {
         if(file){
             const name = file.name;
             this._label.innerHTML = name;
-      
+
             console.log("filename : ", name);
             const isTxt = name.match("^.+\.txt$");
             if(isTxt == null){
@@ -89,10 +72,10 @@ class Input {
             }
 
             const reader = new FileReader();
-  
+
             // Read file into memory as UTF-8
             reader.readAsText(file, "UTF-8");
-          
+        
             // Handle progress, success, and errors
             reader.onload = this.loaded.bind(this); // чому передається evt якщо я зробив бінд зіс?
             reader.onerror = this.errorHandler;
