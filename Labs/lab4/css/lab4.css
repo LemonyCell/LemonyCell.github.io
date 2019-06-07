@@ -4,13 +4,9 @@ body {
     
 }
 
-.itemContainer {
-  overflow-x: auto;
-  white-space: nowrap;
-}
-
-.itemContainer button{
-  margin-left: 0.5%;
+.table{
+  height: 500px;
+  overflow-y: scroll;
 }
 
 /* 

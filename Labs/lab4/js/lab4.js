@@ -32,53 +32,70 @@ window.addEventListener('load', function(){
 });
 
 function showTable(arr){
-  const letters = RadixSort(arr, 3);
-}
+  const unsortedArr = document.querySelector("#array");
+  unsortedArr.childNodes.forEach(child => {
+    child.parentNode.removeChild(child);
+  });
+  for (const a of arr) {
+    const node = document.createTextNode(a);
+    const br = document.createElement('br');
+    unsortedArr.appendChild(node);
+    unsortedArr.appendChild(br);
+  }
 
-function RadixSort(A, d){
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+  const sorted = document.querySelector("#sorted");
+  sorted.childNodes.forEach(child => {
+    child.parentNode.removeChild(child);
+  });
+  arr = SortCharacters.radixSort(arr, 3);
+  for (const a of arr) {
+    const node = document.createTextNode(a);
+    const br = document.createElement('br');
+    sorted.appendChild(node);
+    sorted.appendChild(br);
+  }
+
+  const numbersOfLetters = document.querySelector("#letters");
+  numbersOfLetters.childNodes.forEach(child => {
+    child.parentNode.removeChild(child);
+  });
+  const letters = SortCharacters.numbersOfCharacters(arr);
   
-  const B = new Array(A.length);
+  const sortedLetters = Array.from(letters.entries()).sort((a, b) => b[1]-a[1]);
 
-  for(let i=d-1; i>=0; i--){
-    CountingSort(A, B, alphabet, i);
-
-    for (let j=0; j<B.length; j++) {
-      A[j] = B[j];
-    }
+  for (const [key, value] of sortedLetters) {
+    const node = document.createTextNode(`${key} (${value})`);
+    const br = document.createElement('br');
+    numbersOfLetters.appendChild(node);
+    numbersOfLetters.appendChild(br);
   }
 
-  // find number of letters in array A
-  var letters = new Map();
-  for (const string of A) {
-    for (const char of string) {
-      if(letters.has(char)){
-        letters.set(char, letters.get(char) + 1);
-      } else {
-        letters.set(char, 1);
-      }
-    }
-  }
-  return letters;
-}
 
-function CountingSort(A, B, K, digit){
-    const C = [];
-    for(let k of K){
-      C[k] = 0;
-    }
+  let max = Array.from(letters.values()).reduce((a, b) => Math.max(a, b));
+  // for (const value of letters.values()) {
+  //   if(value > max){
+  //     max = value;
+  //   }
+  // }
 
-    for(let a of A){
-      C[a[digit]]++;
-    }
+  let maxValues = Array.from(letters.entries()).filter(([key, value]) => value === max).map(([key]) => key);
+  // for (const [key, value] of letters) {
+  //   if(value == max){
+  //     maxValues.push(key);
+  //   }
+  // }
 
-    for(let i=1; i<=K.length; i++){
-      C[K[i]] = C[K[i]] + C[K[i-1]];
-    }
+  const first = arr[0];
+  const last = arr[arr.length-1];
 
-    for(let i=A.length-1; i>=0; i--){
-      const a = A[i];
-      B[C[a[digit]]-1] = a;
-      C[a[digit]]--;
-    }
+  let parols = maxValues.map(letter => `${first}${letter}${last}`);
+  // for (const letter of maxValues) {
+  //   parols.push(`${first}${letter}${last}`);
+  // }
+
+  const result = document.querySelector(".parol");
+  result.textContent = parols.join(' ');
+  // for (const parol of parols) {
+  //   result.textContent += parol + " ";
+  // }
 }
