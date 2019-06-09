@@ -17,11 +17,9 @@ function getBookmarks(){
 }
 
 async function getBookmarksAwait() {
-  let responseBookmarks = await fetch("https://api12342354.restlet.net/v1/bookmarks/");
-  let bookmarks = await responseBookmarks.json();
-  console.log("parsed json : ");
-  console.log(JSON.stringify(bookmarks, '', ' '));
-  return bookmarks;
+  const response = await fetch("https://api12342354.restlet.net/v1/bookmarks/");
+  const objects = await response.json();
+  return objects;
 }
 
 
@@ -54,16 +52,14 @@ function createLi(url, comment){
 	return li;
 }
 
-function createList(json){
+function createList(bookmarks){
 	const ul = document.getElementsByTagName("ul")[0];
 	
-	console.log('parsed json', json)
-	for(let elem in json){
-		console.log('elem: ', json[elem]);
-		console.log('id: ', json[elem].id);
-		console.log('url: ', json[elem].url);
-		console.log('comment: ', json[elem].comment)
-		ul.appendChild(createLi(json[elem].url, json[elem].comment));
+	console.log('arr of objects : ', bookmarks)
+	for(const {comment, url} of bookmarks){
+		console.log('url: ', url);
+		console.log('comment: ', comment)
+		ul.appendChild(createLi(url, comment));
 	}
 }
 
