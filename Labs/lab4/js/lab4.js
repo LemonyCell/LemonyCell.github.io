@@ -47,7 +47,9 @@ function showTable(arr){
   sorted.childNodes.forEach(child => {
     child.parentNode.removeChild(child);
   });
+
   arr = SortCharacters.radixSort(arr, 3);
+  
   for (const a of arr) {
     const node = document.createTextNode(a);
     const br = document.createElement('br');

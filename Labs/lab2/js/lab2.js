@@ -11,7 +11,6 @@ window.onload = function(){
 
 var Matrix = new Array();
 
-
   //#region File reading
  function startRead() {
     // obtain input element through DOM
