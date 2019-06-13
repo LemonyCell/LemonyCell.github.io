@@ -30,9 +30,7 @@ class Input {
         input.type = 'file';
         input.setAttribute("aria-describedby", "inputGroupFileAddon01");
 
-        input.addEventListener('change', async e => {
-          await this.StartRead();
-        });
+        input.addEventListener('change', this.StartRead.bind(this));
 
         this._input = input;
 
@@ -225,27 +223,24 @@ class RadixSort extends Input{
 
   showResults(Hlow, Hhigh, Hmedians){
     const div = document.createElement('div');
-    const br = document.createElement('br');
 
     const low = document.createElement('p');
     let result = "Hlow [ ";
     for (const l of Hlow) {
       result += l + " ";
     }
-    result += "]";
+    result += "] \n";
     low.textContent = result;
     div.appendChild(low);
-    div.appendChild(br);
 
     const high = document.createElement('p');
     result = "Hhigh [ ";
     for (const h of Hhigh) {
       result += h + " ";
     }
-    result += "]";
+    result += "] \n";
     high.textContent = result;
     div.appendChild(high);
-    div.appendChild(br);
 
     const medians = document.createElement('p');
     result = "Medians [ ";
