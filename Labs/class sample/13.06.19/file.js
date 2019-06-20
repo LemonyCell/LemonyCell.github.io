@@ -8,13 +8,21 @@ class A {
 
     calculate() {
         const result = this.getData().reduce((a, b) => a + b);
-        console.log(result);
         if (this.callback) this.callback(result);
     }
 }
 
 class B extends A {
+    constructor(filename, callback){
+        super(callback);
+        this.filename = filename;
+    }
+
     getData() {
         return [1,2,3,4,5];
     }
 }
+
+new B('1.txt', (result) => {
+    console.log(result);
+});
