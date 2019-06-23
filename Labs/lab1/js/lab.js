@@ -34,7 +34,7 @@ class Karatsuba {
     return false;
   }
 
-  async karatsuba(x, y, controlNumber, n){
+  karatsuba(x, y, controlNumber, n){
     let X = x.toString();
     let Y = y.toString();
 
@@ -55,7 +55,7 @@ class Karatsuba {
     }
 
     if(digit == 1) 
-      return await BigInt(x*y) ;
+      return BigInt(x*y) ;
     
     if (digit % 2 != 0)
     {
@@ -71,9 +71,9 @@ class Karatsuba {
     const d = BigInt( Y.substring( Math.floor(digit / 2)) );
 
     // шукаємо потрібні множники
-    const ac = await this.karatsuba(a, c, controlNumber, n);
-    const bd = await this.karatsuba(b, d, controlNumber, n);
-    const adbc = await this.karatsuba((a + b), (c + d), controlNumber, n) -ac -bd ;
+    const ac = this.karatsuba(a, c, controlNumber, n);
+    const bd = this.karatsuba(b, d, controlNumber, n);
+    const adbc = this.karatsuba((a + b), (c + d), controlNumber, n) -ac -bd ;
 
     // якщо число ad_bc дорівнює перевірочному числу то збільшуємо кількість співпадінь на 1 
     if (adbc == controlNumber)
@@ -83,7 +83,7 @@ class Karatsuba {
     const powN = BigInt( Math.pow(10, digit) );
     const powN2 = BigInt( Math.pow(10,  Math.floor(digit / 2)) );
     const res = powN * ac + powN2 * adbc + bd;
-    return await res ;
+    return res ;
   }
 
   showResult(result, iterations){

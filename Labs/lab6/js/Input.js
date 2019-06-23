@@ -122,37 +122,39 @@ class Input {
       const content = fileString.split('\n');
       this.arr = [];
       for(let i=0; i<content.length; i++){
-        this.arr.push( +content[i] );
+        this.arr.push( + content[i] );
       }
     }
   }
 
 class HashTable extends Input{
+
   createArr(fileString){
     super.createArr(fileString);
 
     this.showSums();
   }  
 
-  showSums(){
-    const div = document.createElement('div');
-    
-    const sums = this.caculateSums();
-
-    this._parent.appendChild(div);
+  async showSums(){
+    const p = document.createElement('p');
+    this.arr = [1, 2, 3, 4];
+    const sums = await this.caculateSums();
+    p.textContent = `Number of sums = ${sums.length}`;
+    this._parent.appendChild(p);
   }
 
-  caculateSums()
+  async caculateSums()
   {
     const size = this.arr.length;
-    const T = [].fill.call({ length: size }, []);
+    const T = [];
+    T.length = size;
 
     for (const a of this.arr) {
-      this.hashInsert(T, this.h(T.length, a), a);
+      this.hashInsert(T, this.hash(a), a);
     }
 
     let sums = [];
-    for (let S = 1000; S >= -1000; S--)
+    for (let S = 5; S >= 5; S--)
     {
       for (let i = 0; i < size; i++)
       {
@@ -164,26 +166,30 @@ class HashTable extends Input{
         }
       }
     }
-    return sums;
+    return await sums;
   }
 
-  h(len, x){
-    const index = x % len;
+  hash(x){
+    const size = this.arr.length;
+    const index = x % size;
     return Math.abs(index);
   }
 
   hashInsert(T, index, element){
+    if(T[index] == undefined){
+      T[index] = new Array();
+    }
     T[index].unshift(element)
   }
 
   hashSearch(T, x){
-    const index = this.h(T.length, x);
-    if (T[index].length == 0)
+    const index = this.hash(x);
+    if (T[index] == undefined || T[index].length == 0)
     {
       return false;
     }
-
-    for (const t of T[index]) {
+    const arr = T[index];
+    for (const t of arr) {
       if (t == x)
         return true;
     }
