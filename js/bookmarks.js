@@ -1,6 +1,12 @@
 window.onload = async function(){
+
+	const bookmarks = await getBookmarksAwait();
+
+	if(bookmarks === undefined){
+		return;
+	}
 	
-	createList(await getBookmarksAwait());
+	createList(bookmarks);
 	
     const footer = document.getElementById("footer");
     const addBtn = createAddBtn();
@@ -17,9 +23,15 @@ function getBookmarks(){
 }
 
 async function getBookmarksAwait() {
-  const response = await fetch("https://api12342354.restlet.net/v1/bookmarks/");
-  const objects = await response.json();
-  return objects;
+  return await fetch("https://api12342354.restlet.net/v1/bookmarks/")
+  .then(response => {
+	if(response.ok) {
+		return response.json();
+	  }
+	  throw new Error('Network response was not ok.');
+  }).catch(function(error) {
+	console.log('There has been a problem with your fetch operation: ' + error.message);
+  });
 }
 
 
