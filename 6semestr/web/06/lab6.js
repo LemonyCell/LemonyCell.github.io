@@ -1,6 +1,8 @@
 window.onload = () => 
 {
+	ninput(document.body);
 	setMenuUpdate();
+	chimg(document.body);
 }
 
 function chimg(parent)
@@ -152,7 +154,7 @@ function doAction(actionType)
 			document.body.style.fontSize="20pt";
 			break;
 		case "Зменшити шрифт":
-			document.body.style.fontSize-=2;
+			document.body.style.fontSize="10pt";
 			break;
 		case "changeBkg":
 			document.body.style.background = bg();
