@@ -1,3 +1,8 @@
+window.onload = () => 
+{
+	setMenuUpdate();
+}
+
 function chimg(parent)
 {
 	const ImgPath1 = "https://i.pinimg.com/564x/d9/6c/52/d96c52866e11dc04bde0dc9be09fd0cb.jpg";
