@@ -1,6 +1,8 @@
 window.onload = () => 
 {
 	assignFunctionToCheckboxes();
+	checkbox();
+	doMem();
 }
 // ----- sample 1
 function editPassword(password, messageId, minLength, maxLength) { /* Параметр password задає атрибут id потрібного поля для вводу паролю, а параметр messageId – атрибут id відповідного дескриптора <font>, в якому розміщатимемо текст-попередження. Параметри minLength та maxLength задають відповідно мінімальну та максимальну довжини поля для вводу паролю у символах */
@@ -37,11 +39,77 @@ function editPassword(password, messageId, minLength, maxLength) { /* Парам
 
 }
 
-function zoomMap(zoom, imageId) { /* функції в якості параметрів передаємо коефіцієнт масштабування (параметр zoom) та атрибут id того зображення, яке підлягає масштабуванню (параметр imageId) */
+// ----- sample 2
+function doMem(mapName = "oneMem")
+{
+	const imgId = "3rgvrt4";
+	const mapId = "drgr445gr5t";
+	createImageMap(imgId, mapName, mapId);
+	ninput(imgId, mapId);
+}
+
+function ninput(imgId, mapId)
+{
+	const p = document.createElement("p");
+	p.innerText = "Zoom input";
+	
+	const input = document.createElement("input");
+	input.type = "number"
+	
+	const btn = document.createElement("button");
+	btn.value = "Try zoom";
+	btn.onclick = (e) => 
+	{
+		const zoom = parseFloat(input.value, 10);
+		zoomMap(zoom, imgId, mapId);
+	};
+	document.body.appendChild(input);
+	btn.appendChild(p);
+	document.body.appendChild(btn);
+}
+
+function createImageMap(imgId, mapName, mapId)
+{
+	const src = "https://i.pinimg.com/564x/43/d8/89/43d889b0b78d9f6c52f51e575dd5c4b7.jpg";
+	const img = document.createElement("img");
+	img.src = src;
+	img.id = imgId;
+	img.useMap = "#" + mapName;
+	
+	img.onload = () => 
+	{
+		const colgate = "https://www.colgate.com.ua/products/toothpaste";
+		const onePunch = "https://mangapoisk.ru/manga/vanpanchmen";
+		console.log(img, img.height, img.width);
+		const ar0 = createArea(colgate, 0, 0, img.width, (img.height/2) - 1);/* верх лівий кут, середина прав сторони мінус 1 */
+		const ar1 = createArea(onePunch, 0, (img.height/2) + 1, img.width, img.height);/*середина лів сторони плюс 1, нижній правий кут */
+		
+		const map = document.createElement("map");
+		map.name = mapName;
+		map.id = mapId;
+		map.innerHTML = ar0.outerHTML + ar1.outerHTML;
+		
+		document.body.appendChild(document.createElement("br"));
+		document.body.appendChild(img);
+		document.body.appendChild(map);
+	}
+}
+
+function createArea(href, x0, y0, x1, y1, shape = "rect")
+{
+	const area = document.createElement("area");
+	area.target = "_blank";
+	area.shape = shape;
+	area.coords = [x0, y0, x1, y1].join(",");
+	area.href = href;
+	return area;
+}
+
+function zoomMap(zoom, imageId, mapId) { /* функції в якості параметрів передаємо коефіцієнт масштабування (параметр zoom) та атрибут id того зображення, яке підлягає масштабуванню (параметр imageId) */
 
 	var karta = document.getElementById(imageId); /* karta посилається на тег <img>, що представляє зображення, яке плануємо масштабувати */
 
-	var areas = document.all.map.areas; /* змінна areas є масивом JavaScript-об'єктів, що представляють області карти посилань */
+	var areas = document.getElementById(mapId).areas; /* змінна areas є масивом JavaScript-об'єктів, що представляють області карти посилань */
 
 	for(var i=0; i<areas.length; i++) /* у циклі по черзі розглядаємо кожну область карти посилань */
 	{
@@ -64,7 +132,8 @@ function zoomMap(zoom, imageId) { /* функції в якості параме
 
 	karta.height = Math.round((karta.height)*zoom);
 }
-// ----- sample 2
+
+// ----- sample 3
 function showStreets(regionIndex,selectId) {
 	/* Для вирішення нашої задачі зручно застосувати масиви. Опишемо 5 масивів, кожен з яких містить назви вулиць одного конкретного району міста Львова: */
 	const streetsGal  = new Array('Галицька','Ставропігійська','Краківська','Театральна','Вірменська');
@@ -75,8 +144,8 @@ function showStreets(regionIndex,selectId) {
 	
 	/* Оголосимо масив streetsAll з 6 елементів. Першим елементом зробимо значення null, наступні 5 елементів будуть вже оголошеними масивами streetsGal,streetsFran,streetsLych,streetsSykh та streetsShev. Кількість та послідовність елементів масиву streetsAll повинна відповідати кількості та послідовності елементів списку районів. Елементу "Виберіть район" списку районів відповідає значення null, елементу "Галицький" – масив streetsGal, що описує вулиці Галицького району, елементу streetsFran – масив streetsFran, що перелічує вулиці Франківського району і т.д. Масив streetsAll сформований так, щоб можна було написати лаконічний, мінімізований код функції showStreets */
 	let streetsAll = new Array(streetsGal.sort(),streetsFran.sort(),streetsLych.sort(),streetsSykh.sort(),streetsShev.sort());
-	const allStreetsInRow = streetsAll.flat().sort();
 	
+	const allStreetsInRow = streetsAll.flat().sort();
 	streetsAll.unshift(allStreetsInRow);
 	streetsAll.unshift(null);
 	
@@ -153,171 +222,40 @@ function checkBtn(index, btnId)
 	}
 }
 
-//--------------------
-function chimg(parent)
+// ------ task 3
+
+function checkbox()
 {
-	const ImgPath1 = "https://i.pinimg.com/564x/d9/6c/52/d96c52866e11dc04bde0dc9be09fd0cb.jpg";
-	const ImgPath2 = "https://i.pinimg.com/564x/91/c4/4a/91c44a652f1aaef2f4aca4fab4030057.jpg";
+	const boxName = "box";
+	const resId = "boxSum";
 	
-	const img = document.createElement("img");
-	img.src = ImgPath1;
-	img.onmouseover = () => 
+	const boxes = document.getElementsByName(boxName);
+	const span = document.getElementById(resId);
+	
+	for(var i = 0; i < boxes.length; i++) /* у циклі “перебираємо” усі прапорці цієї групи */
 	{
-		img.src = ImgPath2;
-	}
-	img.onmouseout = () => 
-	{
-		img.src = ImgPath1;
+		boxes[i].onclick = click;
 	}
 	
-	parent.appendChild(img);
-}
-
-function ninput(parent)
-{
-	const p = document.createElement("p");
-	p.innerText = "Number input";
-	
-	const input = document.createElement("input");
-	//input.type = "number";
-	input.onkeypress = checkDigit;
-	
-	parent.appendChild(p);
-	parent.appendChild(input);
-}
-
-function checkDigit(event)
-{
-	const code = event.keyCode;
-	if(code <= 47 || code >57)
+	function click()
+	{
+		let count = 0;
+		for(var i = 0; i < boxes.length; i++) /* у циклі “перебираємо” усі прапорці цієї групи */
 		{
-			return false;
+			if(boxes[i].checked)
+			{
+				count++;
+			}
 		}
-		
-	return true;
-}
-
-function setMenu()
-{
-	window.addEventListener('contextmenu', 
-	function (e) {
-			e.preventDefault();
-			showCustomMenu(true,event.clientX, event.clientY);
-		}
-		, false);
-		
-	window.addEventListener('click', 
-	function (e) {
-			showCustomMenu(false,event.clientX, event.clientY);
-		}
-		, false);
-		
-	const menuHtml = 
-	'<div id="custommenu" style="width: 250px; height; 80px;visibility: hidden;">                                                      ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'copy\');">Скопіювати вміст документа</div> ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'close\');">Закрити вікно</div>             ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'fontIncrease\');">Збільшити шрифт</div>    ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'changeBkg\');">Змінити фон</div>           ' +
-	'</div>';
-	
-	const div = document.createElement("div");
-	div.innerHTML = menuHtml;
-	
-	document.body.appendChild(div);
-	
-}
-
-
-function setMenuUpdate()
-{
-	window.addEventListener('contextmenu', 
-	function (e) {
-			e.preventDefault();
-			showCustomMenu(true,event.clientX, event.clientY);
-		}
-		, false);
-		
-	window.addEventListener('click', 
-	function (e) {
-			showCustomMenu(false,event.clientX, event.clientY);
-		}
-		, false);
-		
-	const menuHtml = 
-	'<style>                            ' +
-	'	#custommenu:hover {border: solid 5px;}' +
-	'</style>                           ' +
-	'<div id="custommenu" style="width: 250px; height; 80px;visibility: hidden;">                                                      ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'copy\');">Скопіювати вміст документа</div> ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'close\');">Закрити вікно</div>             ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'fontIncrease\');">Збільшити шрифт</div>    ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'Зменшити шрифт\');">Зменшити шрифт</div>    ' +
-		'<div style="background-Color: silver; color: navy; font-Size: 10pt;" onclick="doAction(\'changeBkg\');">Змінити фон</div>           ' +
-	'</div>';
-	
-	const div = document.createElement("div");
-	div.onmouseover = () => 
-	{
-		div.border = "3pt";
-	}
-	div.onmouseout = () => 
-	{
-		div.border = "0pt";
-	}
-	
-	div.innerHTML = menuHtml;
-	
-	document.body.appendChild(div);
-	
-}
-
-function showCustomMenu(sign, x, y) 
-{
-	/*  Функція приймає три параметри. Перший параметр (sign) є логічного типу. Він задає, що слід зробити з меню – показати чи приховати. Другий параметр (x) та третій параметр (y)  задають горизонтальну та вертикальну екранні координати точки, в якій користувач натиснув праву кнопку миші  */
-	var cm = document.getElementById("custommenu"); /* Змінна cm буде вказувати на наше «меню» */
-
-		if(sign) /* Якщо передано параметр sign, рівний true, то меню покажемо, а інакше приховаємо */
+		if(count < 5)
 		{
-			cm.style.visibility = 'visible';
+			span.style.color = "red";
+			span.innerText = "Відміть більше 4 прапорців";
 		}
 		else
 		{
-			cm.style.visibility = 'hidden';
+			span.style.color = "green";
+			span.innerText = "Усе добре!";
 		}
-	/* Задаємо меню абсолютну позицію та встановлюємо координати його лівого верхнього кута */
-	cm.style.position = 'absolute';
-	cm.style.left = x;
-	cm.style.top = y;
-}
-
-function doAction(actionType)
-{
-	switch(actionType)
-	{
-		case "copy":
-			break;
-		case "close":
-			window.close();
-			break;
-		case "fontIncrease":
-			document.body.style.fontSize="20pt";
-			break;
-		case "Зменшити шрифт":
-			document.body.style.fontSize="10pt";
-			break;
-		case "changeBkg":
-			document.body.style.background = bg();
-			break;
 	}
 }
-
-function bg() {
-    var x = Math.floor(Math.random() * 256);
-    var y = Math.floor(Math.random() * 256);
-    var z = Math.floor(Math.random() * 256);
-    var bgColor = "rgb(" + x + "," + y + "," + z + ")";
-  
-    return bgColor;
-    }
-
-
