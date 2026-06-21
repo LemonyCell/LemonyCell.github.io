@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DST — Локальна мережа</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Crimson+Pro:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Tokens ────────────────────────────────────────────── */
+    :root {
+      --bg:        #0f0c08;
+      --surface:   #1c1710;
+      --border:    #3a2e1a;
+      --amber:     #c9a84c;
+      --amber-dim: #8a6e2a;
+      --text:      #e0cfa0;
+      --text-dim:  #9a8a6a;
+      --green:     #6aaa6a;
+      --red:       #bb5555;
+      --pending:   #8888bb;
+      --code-bg:   #140f06;
+
+      --radius: 6px;
+      --gap: 1.25rem;
+    }
+
+    /* ── Reset ─────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Base ──────────────────────────────────────────────── */
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Crimson Pro', Georgia, serif;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      padding: 1.25rem 1rem 3rem;
+    }
+
+    /* ── Layout ────────────────────────────────────────────── */
+    .page {
+      max-width: 680px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--gap);
+    }
+
+    /* ── Header ────────────────────────────────────────────── */
+    header {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--amber-dim);
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+
+    h1 {
+      font-family: 'IM Fell English', serif;
+      font-size: clamp(1.7rem, 6vw, 2.4rem);
+      color: var(--amber);
+      line-height: 1.2;
+      /* signature: candlelight glow pulse */
+      animation: candle 4s ease-in-out infinite;
+    }
+
+    @keyframes candle {
+      0%, 100% { text-shadow: 0 0 12px #c9a84c55, 0 0 30px #c9a84c22; }
+      40%       { text-shadow: 0 0 18px #c9a84c88, 0 0 45px #c9a84c33; }
+      60%       { text-shadow: 0 0  8px #c9a84c33, 0 0 20px #c9a84c11; }
+    }
+
+    .subtitle {
+      font-style: italic;
+      color: var(--text-dim);
+      font-size: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    /* ── Section cards ─────────────────────────────────────── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem 1.1rem;
+    }
+
+    .card-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--amber-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-family: 'IM Fell English', serif;
+      font-size: 1.3rem;
+      color: var(--amber);
+      margin-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.45rem;
+    }
+
+    h3 {
+      font-family: 'IM Fell English', serif;
+      font-size: 1.1rem;
+      color: var(--amber);
+      margin: 1.1rem 0 0.35rem;
+    }
+
+    h3:first-of-type { margin-top: 0; }
+
+    /* ── Lists ─────────────────────────────────────────────── */
+    ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    ul li {
+      padding-left: 1.2rem;
+      position: relative;
+      color: var(--text);
+    }
+
+    ul li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--amber-dim);
+    }
+
+    strong { color: var(--amber); font-weight: 600; }
+
+    /* ── Code ──────────────────────────────────────────────── */
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--amber-dim);
+      border-radius: var(--radius);
+      padding: 0.9rem 1rem;
+      overflow-x: auto;
+      margin: 0.75rem 0;
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.82rem;
+      color: #d4b86a;
+      line-height: 1.6;
+    }
+
+    p code {
+      background: var(--code-bg);
+      padding: 0.1em 0.35em;
+      border-radius: 3px;
+      font-size: 0.85em;
+      color: #d4b86a;
+    }
+
+    p { margin-top: 0.4rem; }
+
+    /* ── Status table ──────────────────────────────────────── */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .step-row {
+      display: grid;
+      grid-template-columns: 2rem 1fr auto;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.7rem 0.9rem;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--amber-dim);
+      text-align: center;
+    }
+
+    .step-text {
+      font-size: 0.97rem;
+      color: var(--text);
+    }
+
+    .badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      padding: 0.2em 0.55em;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
+
+    .badge-no      { background: #3a1a1a; color: var(--red); border: 1px solid #5a2a2a; }
+    .badge-pending { background: #1a1a3a; color: var(--pending); border: 1px solid #2a2a5a; }
+
+    /* ── Divider ───────────────────────────────────────────── */
+    hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0.25rem 0;
+    }
+
+    /* ── Desktop bump ──────────────────────────────────────── */
+    @media (min-width: 540px) {
+      body { padding: 2rem 1.5rem 4rem; }
+      .card { padding: 1.5rem 1.4rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      h1 { animation: none; text-shadow: 0 0 12px #c9a84c44; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+
+    <!-- Header -->
+    <header>
+      <p class="eyebrow">Технічний нотатник</p>
+      <h1>Don't Starve Together<br/>Локальна мережа</h1>
+      <p class="subtitle">Мінімальна затримка — втрьох через WiFi hotspot</p>
+    </header>
+
+    <!-- Мета -->
+    <div class="card">
+      <p class="card-label">Мета</p>
+      <h2>Що хочемо досягти</h2>
+      <p>Зіграти втрьох у DST через локальну мережу з <strong>мінімальною затримкою</strong> — без зовнішніх серверів, весь трафік локально.</p>
+    </div>
+
+    <!-- Обмеження -->
+    <div class="card">
+      <p class="card-label">Контекст</p>
+      <h2>Обмеження та обставини</h2>
+      <ul>
+        <li>Хост-ноутбук (Windows) роздає WiFi-точку доступу <strong>і</strong> запускає сервер DST одночасно</li>
+        <li>Для створення hotspot на Windows потрібне підключення до роутера через WiFi — <strong>кабелю немає</strong></li>
+        <li>Хост-ноутбук одночасно підключений до роутера через WiFi <strong>і</strong> роздає власну точку доступу</li>
+        <li>Один ноутбук працює на <strong>WinToGo</strong> — до роутера не підключається, але до hotspot може</li>
+        <li>Один ноутбук — <strong>Mac</strong></li>
+        <li>При підключенні до hotspot без інтернету Steam пропонує <strong>«Play Offline»</strong></li>
+      </ul>
+    </div>
+
+    <!-- Що спробували -->
+    <div class="card">
+      <p class="card-label">Спроби</p>
+      <h2>Що вже зробили</h2>
+      <ul>
+        <li>Хост створив WiFi hotspot, інші підключились</li>
+        <li>Шукали сервер через <strong>LAN browse</strong> у DST — не знайшли</li>
+        <li>Firewall на Windows <strong>не налаштовували</strong></li>
+        <li>На Mac і WinToGo <strong>нічого не робили</strong></li>
+      </ul>
+    </div>
+
+    <!-- Рекомендації -->
+    <div class="card">
+      <p class="card-label">Рекомендації</p>
+      <h2>Що робити</h2>
+
+      <h3>1. Firewall — головна причина проблеми</h3>
+      <p>Windows класифікує hotspot-мережу як <strong>Public</strong> — більшість правил firewall працюють лише для Private. Потрібно додати правило вручну:</p>
+      <pre><code>Firewall → Advanced Settings
+→ Inbound Rules → New Rule
+→ Port → UDP → 10999
+→ Allow
+→ Увімкнути всі три профілі:
+  Domain  ✓  Private  ✓  Public  ✓</code></pre>
+
+      <h3>2. Якщо LAN browse досі не показує сервер</h3>
+      <p>Підключитись напряму по IP. На хост-ноутбуку відкрити CMD і виконати <code>ipconfig</code>. Знайти IP hotspot-адаптера (зазвичай <code>192.168.137.1</code>). Потім у DST натиснути <code>~</code> та ввести:</p>
+      <pre><code>c_connect("192.168.137.1", 10999)</code></pre>
+
+      <h3>3. Mac — нічого не потрібно</h3>
+      <p>Firewall на Mac вимкнений за замовчуванням. Як клієнт — жодних налаштувань не потребує.</p>
+
+      <h3>4. WinToGo — якщо не з'єднується</h3>
+      <p>Запасний варіант: USB-тетеринг з телефону або USB-Ethernet адаптер.</p>
+
+      <h3>5. «Play Offline» у Steam</h3>
+      <p>Це нормально. Натиснути <strong>Play Offline</strong> на всіх ноутбуках — LAN-гра при цьому працює повноцінно.</p>
+    </div>
+
+    <!-- Статус -->
+    <div class="card">
+      <p class="card-label">Пріоритет дій</p>
+      <h2>Чекліст</h2>
+      <div class="steps">
+        <div class="step-row">
+          <span class="step-num">01</span>
+          <span class="step-text">Відкрити UDP 10999 у Firewall (всі профілі)</span>
+          <span class="badge badge-no">не зроблено</span>
+        </div>
+        <div class="step-row">
+          <span class="step-num">02</span>
+          <span class="step-text">Перевірити LAN browse після налаштування firewall</span>
+          <span class="badge badge-pending">очікує</span>
+        </div>
+        <div class="step-row">
+          <span class="step-num">03</span>
+          <span class="step-text">Якщо не допомогло — підключитись через прямий IP</span>
+          <span class="badge badge-pending">очікує</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
